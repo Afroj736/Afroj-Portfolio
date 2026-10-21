@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QA Command Center // Afroj Raj</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-container-low": "#151b2d",
+                "on-primary-container": "#004965",
+                "tertiary-container": "#ce9bff",
+                "on-primary-fixed-variant": "#004c69",
+                "surface-container-highest": "#2e3447",
+                "error-container": "#93000a",
+                "surface-container-lowest": "#070d1f",
+                "inverse-surface": "#dce1fb",
+                "on-tertiary-fixed": "#2c0051",
+                "on-secondary": "#003919",
+                "surface-variant": "#2e3447",
+                "primary": "#8ed5ff",
+                "secondary-container": "#00b55d",
+                "outline": "#87929a",
+                "on-primary": "#00354a",
+                "on-primary-fixed": "#001e2c",
+                "primary-fixed-dim": "#7bd0ff",
+                "on-secondary-fixed-variant": "#005227",
+                "on-secondary-fixed": "#00210c",
+                "on-surface": "#dce1fb",
+                "primary-fixed": "#c4e7ff",
+                "surface": "#0c1324",
+                "inverse-primary": "#00668a",
+                "inverse-on-surface": "#2a3043",
+                "background": "#0c1324",
+                "surface-dim": "#0c1324",
+                "on-tertiary": "#490080",
+                "surface-container": "#191f31",
+                "surface-bright": "#33394c",
+                "on-tertiary-fixed-variant": "#6900b3",
+                "on-secondary-container": "#003e1c",
+                "surface-tint": "#7bd0ff",
+                "outline-variant": "#3e484f",
+                "tertiary-fixed-dim": "#ddb7ff",
+                "tertiary": "#e1bfff",
+                "secondary-fixed-dim": "#4de082",
+                "primary-container": "#38bdf8",
+                "error": "#ffb4ab",
+                "secondary-fixed": "#6dfe9c",
+                "surface-container-high": "#23293c",
+                "on-error-container": "#ffdad6",
+                "secondary": "#4de082",
+                "on-background": "#dce1fb",
+                "tertiary-fixed": "#f0dbff",
+                "on-tertiary-container": "#6400ac",
+                "on-error": "#690005",
+                "on-surface-variant": "#bdc8d1"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "container-max": "1440px",
+                "widget-padding": "24px",
+                "gutter": "24px",
+                "margin-desktop": "64px",
+                "base": "8px",
+                "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                "body-lg": ["Inter"],
+                "label-caps": ["JetBrains Mono"],
+                "display-lg": ["Inter"],
+                "code-md": ["JetBrains Mono"],
+                "body-md": ["Inter"],
+                "headline-md": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "code-sm": ["JetBrains Mono"],
+                "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "code-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "code-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0c1324;
+            color: #dce1fb;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(21, 27, 45, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(142, 213, 255, 0.3);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
+        }
+
+        .terminal-glow {
+            text-shadow: 0 0 10px rgba(77, 224, 130, 0.5);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070d1f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #191f31;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        @media (max-width: 1023px) {
+            .sidebar-open main { margin-left: 0; }
+            .sidebar-open header { left: 0; }
+        }
+    </style>
+</head>
+<body class="font-body-md antialiased">
+<!-- FIXED SIDENAVBAR -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-surface-container-low/90 backdrop-blur-md border-r border-white/5 flex flex-col py-widget-padding shadow-2xl transition-transform duration-200 -translate-x-full lg:translate-x-0" id="sidebar">
+<div class="px-6 mb-10">
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tighter">AFROJ RAJ</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1 uppercase">QA Command Center</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 bg-primary/10 text-primary border-r-2 border-primary font-label-caps text-label-caps transition-all" href="#overview">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#automation">
+<span class="material-symbols-outlined mr-3">settings_input_component</span>
+                Automation
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#api">
+<span class="material-symbols-outlined mr-3">api</span>
+                API Lab
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#database">
+<span class="material-symbols-outlined mr-3">database</span>
+                Database
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#performance">
+<span class="material-symbols-outlined mr-3">speed</span>
+                Performance
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#defects">
+<span class="material-symbols-outlined mr-3">bug_report</span>
+                Defects
+            </a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:text-on-surface hover:bg-white/5 font-label-caps text-label-caps transition-all" href="#contact">
+<span class="material-symbols-outlined mr-3">mail</span>
+                Contact
+            </a>
+</nav>
+<div class="px-6 mt-auto space-y-4">
+<a class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-caps text-label-caps hover:shadow-[0_0_20px_rgba(142,213,255,0.4)] transition-all flex items-center justify-center gap-2" href="#contact">
+<span class="material-symbols-outlined text-[18px]">work</span>
+                Hire Me
+            </a>
+<div class="pt-6 border-t border-white/5 space-y-2">
+<a class="flex items-center text-outline hover:text-primary transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">link</span>
+                    LinkedIn
+                </a>
+<a class="flex items-center text-outline hover:text-primary transition-colors font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined mr-3 text-[18px]">code</span>
+                    GitHub
+                </a>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT CANVAS -->
+<main class="lg:ml-64 min-h-screen">
+<!-- TOPNAVBAR -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-50 bg-surface/80 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(56,189,248,0.1)]">
+<div class="flex justify-between items-center px-margin-mobile lg:px-margin-desktop py-4 max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-4 lg:gap-8">
+<button class="lg:hidden material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" id="menu-toggle" type="button" aria-label="Toggle menu">menu</button>
+<span class="font-label-caps text-label-caps text-secondary flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+                        SYSTEM READY
+                    </span>
+<nav class="hidden md:flex gap-6">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#overview">Dashboard</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#automation">Experience</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#projects">Projects</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#metrics">Metrics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:inline material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" type="button">terminal</button>
+<button class="hidden sm:inline material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" type="button">notifications</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden border border-primary/20">
+<img alt="Afroj Raj Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFl-b23FA53529NCqE2WpFBU-22JJzm8ExbdC7qn6Dny9CYh17411mo0_AQJbLjsTOM7RZD1tf9ZKUCp_CKkS8tx-JCHSltFZWLpTeTTtBY6nrEZwj0-4Fl5SO3HcAZwP97dcAsHp4ikPnw6zgI2-tmxclQd8mcCHho4REMf7r74Qz12VbUH17HXv6qfPmoVkpgiB6Pp6Fn2CKh69x9ljQl3Sn2RhfD90Wleo8bT8m213evqgBq_E3LnXzNnNjepsB08sfWRrHlPf8"/>
+</div>
+<a class="bg-primary-container text-on-primary-fixed-variant px-4 py-1.5 rounded-full font-label-caps text-[12px] font-bold hover:bg-primary transition-all" href="#contact">
+                        GET IN TOUCH
+                    </a>
+</div>
+</div>
+</header>
+<!-- SCROLLABLE AREA -->
+<div class="pt-24 px-margin-mobile lg:px-margin-desktop pb-16 space-y-16 max-w-container-max mx-auto">
+<!-- HERO SECTION -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-low border border-white/5 p-8 lg:p-12 min-h-[500px] flex items-center" id="overview">
+<div class="absolute inset-0 z-0 overflow-hidden opacity-20 pointer-events-none">
+<div class="font-code-sm text-code-sm text-secondary p-8 space-y-1 opacity-40" id="test-simulation">
+<div>[INFO] Initializing Test Suite v4.2.0...</div>
+<div>[INFO] Loading Drivers for Chrome, Firefox, Edge...</div>
+<div>[RUN] Executing SmokeTests.java...</div>
+<div>[PASS] loginValidation(valid_creds) -&gt; 244ms</div>
+<div>[PASS] checkoutFlow(guest_user) -&gt; 1.2s</div>
+<div>[WARN] apiLatencyCheck(auth_server) -&gt; 890ms (High)</div>
+<div>[RUN] Regression_Batch_01 started...</div>
+<div>[PASS] dataIntegrityCheck(production) -&gt; 45ms</div>
+</div>
+</div>
+<div class="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Afroj Raj</h2>
+<h3 class="font-headline-lg text-headline-lg text-on-surface-variant mb-8">Quality Assurance Engineer</h3>
+<p class="font-body-lg text-body-lg text-outline max-w-md mb-10">
+                            Engineering zero-defect digital experiences through automated precision and rigorous performance intelligence.
+                        </p>
+<div class="grid grid-cols-3 gap-4 lg:gap-6">
+<div class="glass-card p-4 rounded-lg text-center">
+<div class="font-display-lg text-headline-lg text-primary mb-1">2+</div>
+<div class="font-label-caps text-label-caps text-outline">Years Exp</div>
+</div>
+<div class="glass-card p-4 rounded-lg text-center border-secondary/20">
+<div class="font-display-lg text-headline-lg text-secondary mb-1">1000+</div>
+<div class="font-label-caps text-label-caps text-outline">Bugs Found</div>
+</div>
+<div class="glass-card p-4 rounded-lg text-center border-error/20">
+<div class="font-display-lg text-headline-lg text-error mb-1">500+</div>
+<div class="font-label-caps text-label-caps text-outline">Test Cases</div>
+</div>
+</div>
+</div>
+<div class="hidden lg:block">
+<div class="relative w-full aspect-video glass-card rounded-xl overflow-hidden border-primary/20 flex flex-col">
+<div class="bg-surface-container-high px-4 py-2 flex items-center gap-2 border-b border-white/5">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-error/50"></div>
+<div class="w-3 h-3 rounded-full bg-secondary/50"></div>
+<div class="w-3 h-3 rounded-full bg-primary/50"></div>
+</div>
+<span class="font-code-sm text-code-sm text-outline mx-auto uppercase tracking-widest">Automation_Console.log</span>
+</div>
+<div class="p-6 font-code-md text-code-md space-y-2 overflow-hidden flex-1">
+<p class="text-secondary terminal-glow">$ mvn test -Dsuite=Regression</p>
+<p class="text-on-surface-variant">Scanning for projects...</p>
+<p class="text-on-surface-variant">-------------------------------------------------------</p>
+<p class="text-on-surface-variant"> T E S T S</p>
+<p class="text-on-surface-variant">-------------------------------------------------------</p>
+<p class="text-on-surface-variant">Running com.qa.automation.CheckoutTest</p>
+<p class="text-secondary">Tests run: 142, Failures: 0, Errors: 0, Skipped: 0</p>
+<p class="text-primary animate-pulse-glow">BUILD SUCCESS [02:14 min]</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CORE EXPERTISE DASHBOARD -->
+<section id="automation">
+<div class="flex justify-between items-end mb-8">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase">Specializations</span>
+<h2 class="font-headline-lg text-headline-lg mt-2">Core Expertise Dashboard</h2>
+</div>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-2 hover:translate-x-1 transition-transform" type="button">
+                        VIEW METHODOLOGY <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<div class="glass-card p-6 rounded-xl group">
+<span class="material-symbols-outlined text-primary text-4xl mb-4 group-hover:scale-110 transition-transform">architecture</span>
+<h3 class="font-headline-md text-body-lg font-bold mb-2">Automation</h3>
+<p class="text-outline font-body-md text-sm">Building scalable frameworks using Selenium &amp; Java.</p>
+</div>
+<div class="glass-card p-6 rounded-xl group border-secondary/10" id="api">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4 group-hover:scale-110 transition-transform">api</span>
+<h3 class="font-headline-md text-body-lg font-bold mb-2">API Lab</h3>
+<p class="text-outline font-body-md text-sm">Comprehensive REST API testing with Postman &amp; RestAssured.</p>
+</div>
+<div class="glass-card p-6 rounded-xl group" id="database">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-4 group-hover:scale-110 transition-transform">database</span>
+<h3 class="font-headline-md text-body-lg font-bold mb-2">Database</h3>
+<p class="text-outline font-body-md text-sm">Validating data integrity via SQL server &amp; complex queries.</p>
+</div>
+<div class="glass-card p-6 rounded-xl group border-primary/10" id="performance">
+<span class="material-symbols-outlined text-primary text-4xl mb-4 group-hover:scale-110 transition-transform">speed</span>
+<h3 class="font-headline-md text-body-lg font-bold mb-2">Performance</h3>
+<p class="text-outline font-body-md text-sm">Load testing and latency analysis under heavy stress.</p>
+</div>
+<div class="glass-card p-6 rounded-xl group border-error/10">
+<span class="material-symbols-outlined text-error text-4xl mb-4 group-hover:scale-110 transition-transform">touch_app</span>
+<h3 class="font-headline-md text-body-lg font-bold mb-2">Manual</h3>
+<p class="text-outline font-body-md text-sm">Exploratory &amp; usability testing for edge-case discovery.</p>
+</div>
+</div>
+</section>
+<!-- INTERACTIVE SKILLS GRID -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2">
+<h2 class="font-headline-lg text-headline-lg mb-8">Interactive Skills Dashboard</h2>
+<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6">
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="Selenium Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPMxaMUU9IR-kAee4NAgkslQmHH7W1GcGcRsEpCNP-S7yRW7TuGnKM-XUGl3pULywdbzC55MMZ_75MxVpViMkUYXmcnXbbUbm4QCT1Iy_3PE2ucCi1wWTaPy1PrJs-TnRppz3aH0b773WpPwazgEGFTMEH_PglEPYtmvOdjtXWCny_wG1WGj9QGSUH0H58wPtF0jg5b2H2F3ZAMgf-QcTnePrbVXm7kiOKpLBQRlp-BHCU5EPgpjuhSaXhOMC7aMuD-erFF9b0wLJk"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">95%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Selenium</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="Postman Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo_emYF2zIg0RCxqbCJTExJmmh1PwCkM0u4HR761c_5Fp1gCOxmO_-jrRdzYj1j2jIJqsrP56WBoMMyKcNSNyHkmimmCF8fACkozaGhLiOZ_Y5NhW4cAPhibe13j7ni_bHFJXYdRfGr6YM54CSriRUo1ZWpqSxyB_kpvtd30KzOZsdzHQ7_bXmkhf0dYvWPcvLecLj2odLE9oc6sn-Hu_-H5Tq36YH2rbSnXCiORrj8qZ2qf6Ih-Di6rX-Mmp2myQmyF8Y-r_2LSSs"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">90%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Postman</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="Jira Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGw3oUgdo3vs8lXN9aAKk44_CLBczLcGFdStpUA0LhfyAI_ZB50AhMx5b0gFDyoWl-d39LNlLg-DKp6nvixvkfXvaxQIyxfJQxjjZg-MlrrJb9Zz2UJZNolBkEjKLN16mlIeISDT0bJtJhz6xPwUOqrrGr_olh66AGHLc7NwNMroUpnu5ULuBJEiigISNQwmrBiRonwmysD5091qDztmCwngrQhHIUtxmv6DOQQDlEqAzh-bPr9wDw3MfZ8jRrgFVPyCpU2fTClw7U"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">100%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Jira</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="Jenkins Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARLmOv1agpRhAYQPmsMBTdNWIDz3_UIGfCr5zj_ThaQv_K5OSNCeRK3I-Mm9T9umnW_AZYedAFsrRfK4y3SNY8A-k-eY0fVVb16zyGvz6hsEPlBqzK2w12s7KYyEFwrEbESlYlYP-KB_QD_YfOm197d7PRePSS_uCfg87h8Xtr4unYV13Tu3cctdOQFdm2szsKHmEPakS46vEYyPiVZNCwDN539OEv_jQrRnCnAwWURdN2rGOqpU5z5g9VRkRYXNIgzHvUyubdbTsx"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">85%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Jenkins</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="SQL Server Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfLXFCCRIxjoEuNnVkNvSlz7fMOMl632zQVyiwU7J1MG3hqcqjeiCiGjokLJ69u840qdLpsEl1BDDIlJAvl9eAnikc8A8zSYcJHf5yv2pYbCw5eR6_-8fI1ahL2Q2YTByIRli371l3lUmR4JSHKP0HzU0db86WHashqsXDpApMbWp5zTKBWlkw7T92gZQCNsKoRly_TP3mpatxKCDz8DRsIJQrGG7D5Qo3j6y0dZfZ0ZE_XH-1UGiy8X-fxzRw1eCxmI6GLPLYhxbC"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">80%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">SQL</span>
+</div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
+<img alt="Java Icon" class="w-8 h-8 filter brightness-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0aDbOTCUDjVH3UNikalcRpzCdPQpIL2BiPKL9_wT7vLlBjct4q00aZwFSRmYm9NY6yOvhDKfATxMkYGPcALa4p-kyoDczf0Qv1KxE9UoEiihOzPOOyG4PiRtnv8-ArC9es-Br0S1PU7BlnpJB5Sme1p-PCqGrVvDIlhD9rw-f22yB8Aje4bDYk9SmpGbdTVmL-uJf0Io7lkB-Ft4mtgAAYtFvrJdhrDnTd3_JHbEzJUkYXqOz3Z5yTDODGfj4H9zbrwQyGq1MJRit"/>
+<div class="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">92%</div>
+</div>
+<span class="font-label-caps text-label-caps text-outline">Java</span>
+</div>
+</div>
+</div>
+<div class="glass-card p-8 rounded-xl flex flex-col items-center justify-center gap-6">
+<h3 class="font-label-caps text-label-caps text-primary">RELEASE READINESS</h3>
+<div class="relative flex items-center justify-center">
+<svg class="w-32 h-32 transform -rotate-90">
+<circle class="text-white/5" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="56" stroke="currentColor" stroke-dasharray="351.8" stroke-dashoffset="28.1" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-code-md text-code-md text-primary">92%</span>
+</div>
+<p class="font-body-md text-sm text-center text-outline">Average automation coverage across active client repositories.</p>
+</div>
+</section>
+<!-- WORK EXPERIENCE TIMELINE -->
+<section id="experience">
+<h2 class="font-headline-lg text-headline-lg mb-8">Work Experience Timeline</h2>
+<div class="space-y-4">
+<div class="relative group">
+<div class="absolute left-4 top-0 bottom-0 w-px bg-primary/20"></div>
+<div class="glass-card ml-12 p-6 rounded-xl relative">
+<div class="absolute -left-[3.25rem] top-6 w-4 h-4 rounded-full bg-primary border-4 border-surface shadow-[0_0_10px_rgba(142,213,255,1)]"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">QA Engineer — Levon Techno</h3>
+<span class="font-label-caps text-label-caps text-secondary">HEALTHCARE SECTOR</span>
+</div>
+<span class="font-code-md text-code-md text-outline">2021 — PRESENT</span>
+</div>
+<ul class="space-y-3 font-body-md text-on-surface-variant">
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Spearheaded automation framework for Playback Health application.</li>
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Reduced regression cycle time by 60% through parallel execution.</li>
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Implemented continuous testing in Jenkins CI/CD pipelines.</li>
+</ul>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute left-4 top-0 bottom-0 w-px bg-primary/20"></div>
+<div class="glass-card ml-12 p-6 rounded-xl relative opacity-80 hover:opacity-100 transition-opacity">
+<div class="absolute -left-[3.25rem] top-6 w-4 h-4 rounded-full bg-surface-container-highest border-4 border-surface"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Jr. QA Specialist — 86 Labs IT</h3>
+<span class="font-label-caps text-label-caps text-primary">E-COMMERCE</span>
+</div>
+<span class="font-code-md text-code-md text-outline">2019 — 2021</span>
+</div>
+<ul class="space-y-3 font-body-md text-on-surface-variant">
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Conducted manual exploratory testing on cross-browser platforms.</li>
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Developed 500+ comprehensive test cases for order management.</li>
+<li class="flex gap-3"><span class="text-primary">&gt;</span> Managed defect lifecycle using Jira and collaborated with developers.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- PROJECTS BENTO GRID -->
+<section id="projects">
+<h2 class="font-headline-lg text-headline-lg mb-8">Selected Projects</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-64 overflow-hidden relative">
+<img alt="Playback Health Project" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpZRh8_gXLZn042vW3-zWEVbkgE-yo3aGzvpqt7TCfOBzMoLvzK-iV3cd3DAI0E7IROyb94Y7xXgo9lreHeKsKJYZ2degG4H4J5ofK96Ja7vjQrKeplYsTK2-JBcQy7ItHIuc4s60zuB3ZqlHvdHnqYv1GfjdfOixajmImnc2UXAvuuhC9pRKxluOjoSZaZklX64HQR5bHObp_Yinxrk_S56RxjzctwgYA60I4wX9w6tqr1DKyrJ96UKwhFqAyOQIHERLcLugjleeO"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-6">
+<h3 class="font-headline-md text-headline-md text-white">Playback Health</h3>
+<div class="flex gap-2 mt-2">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase">Selenium</span>
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase">Java</span>
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase">Jenkins</span>
+</div>
+</div>
+</div>
+<div class="p-6">
+<p class="font-body-md text-outline mb-6">Designed and executed a robust automation architecture for a clinical collaboration platform, ensuring HIPAA compliance and data accuracy.</p>
+<button class="w-full py-3 rounded-lg border border-primary/30 text-primary font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-all" type="button">VIEW PROJECT</button>
+</div>
+</div>
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-64 overflow-hidden relative">
+<img alt="E-Commerce Platform Project" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkfLelDioRK0WG4lSCevpMDNecL8edEJWdK4EDVPM7PWnvbR2IEtC3d4iBAAyaGmCzZIKGh3ltcuZaLO_cRUW2MCXWJNbPmd3iiXBeIySDI9CsCyNqvqX9kiGP6A5tcyquVeSAcMOi_bVah83ZfYqXlh47wnUPnCcMaCNCahgVwAzbzcYah4DDXGd6y2y1Udpdd6jptIXFmbKv8cDr-XpwWl1cWsJ-rmKjHDclSw8SUqxGFVh3TSM1kFKjBTrCKnsRa-ABt6ypQY1p"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-6">
+<h3 class="font-headline-md text-headline-md text-white">E-Commerce Platform</h3>
+<div class="flex gap-2 mt-2">
+<span class="bg-secondary/20 text-secondary text-[10px] px-2 py-0.5 rounded border border-secondary/30 uppercase">REST Assured</span>
+<span class="bg-secondary/20 text-secondary text-[10px] px-2 py-0.5 rounded border border-secondary/30 uppercase">CI/CD</span>
+</div>
+</div>
+</div>
+<div class="p-6">
+<p class="font-body-md text-outline mb-6">End-to-end quality assurance for a high-traffic retail engine, specializing in transactional integrity and inventory synchronization testing.</p>
+<button class="w-full py-3 rounded-lg border border-secondary/30 text-secondary font-label-caps text-label-caps hover:bg-secondary hover:text-on-secondary transition-all" type="button">VIEW PROJECT</button>
+</div>
+</div>
+</div>
+</section>
+<!-- QA METRICS DASHBOARD -->
+<section id="metrics">
+<h2 class="font-headline-lg text-headline-lg mb-8">QA Metrics Dashboard</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-card p-6 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-caps text-label-caps text-outline">RELEASE QUALITY</span>
+<span class="text-secondary terminal-glow">98.4%</span>
+</div>
+<div class="h-24 flex items-end gap-1">
+<div class="flex-1 bg-secondary/20 rounded-t h-[60%] hover:bg-secondary/40 transition-all"></div>
+<div class="flex-1 bg-secondary/20 rounded-t h-[75%] hover:bg-secondary/40 transition-all"></div>
+<div class="flex-1 bg-secondary/20 rounded-t h-[90%] hover:bg-secondary/40 transition-all"></div>
+<div class="flex-1 bg-secondary/20 rounded-t h-[85%] hover:bg-secondary/40 transition-all"></div>
+<div class="flex-1 bg-secondary h-[98%] hover:brightness-110 transition-all"></div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-caps text-label-caps text-outline">BUG DENSITY</span>
+<span class="text-error terminal-glow">0.12/KLOC</span>
+</div>
+<div class="h-24 flex items-center justify-center">
+<div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="h-full w-[12%] bg-error"></div>
+</div>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<span class="font-label-caps text-label-caps text-outline">TEST COVERAGE</span>
+<span class="text-primary terminal-glow">82%</span>
+</div>
+<div class="h-24 relative">
+<svg class="w-full h-full" viewBox="0 0 100 40">
+<path d="M0,35 Q25,30 50,15 T100,5" fill="none" stroke="#8ed5ff" stroke-width="2"></path>
+<path d="M0,35 Q25,30 50,15 T100,5 L100,40 L0,40 Z" fill="url(#grad)" opacity="0.1"></path>
+<defs>
+<linearGradient id="grad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#8ed5ff;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#8ed5ff;stop-opacity:0"></stop>
+</linearGradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+</section>
+<!-- API TESTING COMMAND CENTER -->
+<section>
+<h2 class="font-headline-lg text-headline-lg mb-8">API Testing Command Center</h2>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+<div class="bg-surface-container-high px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+<span class="font-label-caps text-label-caps text-outline">METHOD: <span class="text-secondary">GET</span></span>
+<span class="font-code-md text-code-md text-on-surface break-all">https://api.v1.playbackhealth.com/v1/auth/session</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-white">content_copy</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-white">download</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2">
+<div class="p-8 border-b lg:border-b-0 lg:border-r border-white/5 bg-black/40">
+<h4 class="font-label-caps text-label-caps text-primary mb-4">// REST ASSURED SNIPPET</h4>
+<pre class="font-code-md text-code-md text-on-surface-variant leading-relaxed overflow-x-auto"><span class="text-tertiary">@Test</span>
+<span class="text-primary">public void</span> <span class="text-secondary">validateAuthToken()</span> {
+    <span class="text-outline">given()</span>
+        .header(<span class="text-secondary">"Authorization"</span>, <span class="text-secondary">"Bearer "</span> + token)
+    <span class="text-outline">.when()</span>
+        .get(<span class="text-secondary">"/auth/session"</span>)
+    <span class="text-outline">.then()</span>
+        .statusCode(<span class="text-secondary">200</span>)
+        .body(<span class="text-secondary">"status"</span>, equalTo(<span class="text-secondary">"active"</span>))
+        .body(<span class="text-secondary">"user.role"</span>, containsString(<span class="text-secondary">"admin"</span>));
+}</pre>
+</div>
+<div class="p-8 bg-black/60">
+<h4 class="font-label-caps text-label-caps text-secondary mb-4">// RESPONSE PAYLOAD</h4>
+<pre class="font-code-md text-code-md text-outline leading-relaxed overflow-x-auto">{
+  <span class="text-primary">"status"</span>: <span class="text-secondary">"success"</span>,
+  <span class="text-primary">"data"</span>: {
+    <span class="text-primary">"id"</span>: <span class="text-secondary">"session_88291"</span>,
+    <span class="text-primary">"expires_at"</span>: <span class="text-secondary">"2024-12-31T23:59:59Z"</span>,
+    <span class="text-primary">"features"</span>: [
+      <span class="text-secondary">"dashboard"</span>,
+      <span class="text-secondary">"automation_api"</span>,
+      <span class="text-secondary">"metrics_export"</span>
+    ]
+  }
+}</pre>
+</div>
+</div>
+</div>
+</section>
+<!-- DEFECT MANAGEMENT KANBAN -->
+<section id="defects">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<h2 class="font-headline-lg text-headline-lg">Defect Management</h2>
+<div class="flex gap-4">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span> 2 CRITICAL
+                        </span>
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> 14 RESOLVED
+                        </span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-4">
+<div class="font-label-caps text-label-caps text-outline bg-surface-container-high p-3 rounded flex justify-between">
+                            TO DO <span>(03)</span>
+</div>
+<div class="glass-card p-4 rounded-lg border-l-4 border-l-error">
+<div class="font-label-caps text-[10px] text-error mb-2">CRITICAL</div>
+<h4 class="font-body-md font-bold text-on-surface text-sm mb-2">Auth bypass via malformed JWT header</h4>
+<div class="flex justify-between items-center">
+<span class="font-code-sm text-code-sm text-outline">PH-1044</span>
+<span class="material-symbols-outlined text-[18px] text-outline">person</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-lg border-l-4 border-l-tertiary">
+<div class="font-label-caps text-[10px] text-tertiary mb-2">MEDIUM</div>
+<h4 class="font-body-md font-bold text-on-surface text-sm mb-2">Mobile menu flickering on Safari 16.x</h4>
+<div class="flex justify-between items-center">
+<span class="font-code-sm text-code-sm text-outline">PH-1052</span>
+<span class="material-symbols-outlined text-[18px] text-outline">person</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="font-label-caps text-label-caps text-outline bg-surface-container-high p-3 rounded flex justify-between">
+                            IN PROGRESS <span>(01)</span>
+</div>
+<div class="glass-card p-4 rounded-lg border-l-4 border-l-primary">
+<div class="font-label-caps text-[10px] text-primary mb-2">HIGH</div>
+<h4 class="font-body-md font-bold text-on-surface text-sm mb-2">Performance lag on dashboard widget load</h4>
+<div class="flex justify-between items-center">
+<span class="font-code-sm text-code-sm text-outline">PH-1039</span>
+<span class="material-symbols-outlined text-[18px] text-primary animate-spin">sync</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="font-label-caps text-label-caps text-outline bg-surface-container-high p-3 rounded flex justify-between">
+                            VALIDATED <span>(02)</span>
+</div>
+<div class="glass-card p-4 rounded-lg border-l-4 border-l-secondary opacity-60">
+<div class="font-label-caps text-[10px] text-secondary mb-2">LOW</div>
+<h4 class="font-body-md font-bold text-on-surface text-sm mb-2">Typo in footer copyright notice</h4>
+<div class="flex justify-between items-center">
+<span class="font-code-sm text-code-sm text-outline">PH-1011</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT CENTER -->
+<section class="pt-16" id="contact">
+<div class="glass-card rounded-2xl p-8 lg:p-12 max-w-4xl mx-auto border-primary/10">
+<div class="text-center mb-12">
+<h2 class="font-headline-lg text-headline-lg mb-4">Initialize Connection</h2>
+<p class="font-body-lg text-outline">Ready to elevate your product quality standards? Let's connect.</p>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6" action="#" method="post">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-primary" for="name">NAME</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30" id="name" name="name" placeholder="Your Full Name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-primary" for="email">EMAIL</label>
+<input class="w-full bg-surface-container-high border-none rounded-lg focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30" id="email" name="email" placeholder="professional@email.com" type="email"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-caps text-label-caps text-primary" for="message">TRANSMISSION</label>
+<textarea class="w-full bg-surface-container-high border-none rounded-lg focus:ring-1 focus:ring-primary text-on-surface placeholder:text-outline/30" id="message" name="message" placeholder="Brief project scope or inquiry details..." rows="4"></textarea>
+</div>
+<div class="md:col-span-2">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-headline-md font-bold hover:shadow-[0_0_30px_rgba(142,213,255,0.4)] transition-all" type="submit">
+                                SEND COMMAND
+                            </button>
+</div>
+</form>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="w-full py-base border-t border-white/10 mt-16 opacity-80 hover:opacity-100 transition-all duration-300">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile lg:px-margin-desktop py-8 gap-4 bg-surface-container-lowest">
+<div class="font-label-caps text-label-caps text-primary">AFROJ RAJ // QA COMMAND CENTER</div>
+<div class="font-code-sm text-code-sm text-outline">© 2025 Afroj Raj // QA Command Center</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-outline hover:text-secondary transition-colors font-code-sm text-code-sm" href="#">LinkedIn</a>
+<a class="text-outline hover:text-secondary transition-colors font-code-sm text-code-sm" href="#">GitHub</a>
+<a class="text-outline hover:text-secondary transition-colors font-code-sm text-code-sm" href="#">StackOverflow</a>
+<a class="text-outline hover:text-secondary transition-colors font-code-sm text-code-sm" href="#">Download Resume</a>
+</div>
+</div>
+</footer>
+</div>
+</main>
+<!-- FLOATING ACTION BUTTON -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary-container text-on-primary-fixed-variant rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50 group" id="fab-console" type="button" aria-label="Open console">
+<span class="material-symbols-outlined text-3xl">chat_bubble</span>
+<span class="absolute right-20 bg-primary-container px-4 py-2 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Open Console</span>
+</button>
+<div class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" id="sidebar-overlay"></div>
+<script>
+        const logs = [
+            "[INFO] Initializing Test Suite v4.2.0...",
+            "[INFO] Loading Drivers for Chrome, Firefox, Edge...",
+            "[RUN] Executing SmokeTests.java...",
+            "[PASS] loginValidation(valid_creds) -> 244ms",
+            "[PASS] checkoutFlow(guest_user) -> 1.2s",
+            "[WARN] apiLatencyCheck(auth_server) -> 890ms (High)",
+            "[RUN] Regression_Batch_01 started...",
+            "[PASS] dataIntegrityCheck(production) -> 45ms",
+            "[INFO] Parallel thread pool initialized...",
+            "[RUN] mobileResponsivenessCheck(iPhone15)...",
+            "[PASS] mobileResponsivenessCheck(iPhone15) -> 3.4s"
+        ];
+
+        const consoleEl = document.getElementById('test-simulation');
+        let index = 0;
+
+        setInterval(() => {
+            if (consoleEl) {
+                const newLog = document.createElement('div');
+                newLog.textContent = logs[index % logs.length];
+                consoleEl.appendChild(newLog);
+                if (consoleEl.children.length > 20) {
+                    consoleEl.removeChild(consoleEl.firstChild);
+                }
+                index++;
+            }
+        }, 2000);
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+                closeSidebar();
+            });
+        });
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const menuToggle = document.getElementById('menu-toggle');
+        const fab = document.getElementById('fab-console');
+
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        menuToggle?.addEventListener('click', () => {
+            if (sidebar.classList.contains('-translate-x-full')) {
+                openSidebar();
+            } else {
+                closeSidebar();
+            }
+        });
+
+        overlay?.addEventListener('click', closeSidebar);
+
+        fab?.addEventListener('click', () => {
+            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
