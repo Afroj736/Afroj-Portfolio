@@ -3,7 +3,7 @@ import { RESUME_PDF } from "../constants/resume.js";
 // Placeholder images — swap these for real assets later.
 export const IMAGES = {
   logo: "https://picsum.photos/seed/afroj-logo/120/120",
-  // Background removed + upscaled from the original passport photo.
+  // Background removed from the original passport photo (native 333×447).
   portrait: "/images/portrait.png",
 };
 

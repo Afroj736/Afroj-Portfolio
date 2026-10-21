@@ -195,18 +195,33 @@ body.is-loading {
 .is-scanning .scan-line {
   animation: scan-fill 3s cubic-bezier(0.45, 0, 0.25, 1) forwards;
 }
-/* Legs only move while scanning; the bug rests (dimmed) once the scan passes. */
-.scan-bug .beetle-leg,
-.scan-bug .bug-crawl-icon {
-  animation-play-state: paused;
+/* After the scan the bug keeps patrolling the line, turning at each end. */
+@keyframes bug-patrol {
+  0% {
+    left: calc(100% - 2.5rem);
+    transform: translateY(-50%) scaleX(-1);
+  }
+  49.9% {
+    left: 0;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  50% {
+    left: 0;
+    transform: translateY(-50%) scaleX(1);
+  }
+  99.9% {
+    left: calc(100% - 2.5rem);
+    transform: translateY(-50%) scaleX(1);
+  }
+  100% {
+    left: calc(100% - 2.5rem);
+    transform: translateY(-50%) scaleX(-1);
+  }
 }
-.is-scanning:not(.is-scanned) .scan-bug .beetle-leg,
-.is-scanning:not(.is-scanned) .scan-bug .bug-crawl-icon {
-  animation-play-state: running;
-}
-.is-scanned .scan-bug > div {
-  opacity: 0;
-  transition: opacity 0.6s ease;
+
+.is-scanned .scan-bug {
+  opacity: 1;
+  animation: bug-patrol 18s linear infinite;
 }
 
 @keyframes bug-bob {

@@ -78,7 +78,7 @@ export default function SectionDivider({ target }) {
 
       <div className="relative h-px bg-white/[0.06]">
         <div className="scan-line absolute inset-0 origin-left bg-gradient-to-r from-primary/10 via-primary to-secondary" />
-        <div className="scan-bug absolute top-0" onAnimationEnd={() => setDone(true)}>
+        <div className="scan-bug absolute top-0" onAnimationEnd={(event) => event.animationName === "bug-scan" && setDone(true)}>
           <div className="absolute top-1/2 right-[85%] w-24 h-px bg-gradient-to-r from-transparent to-primary" />
           <BeetleIcon className="bug-crawl-icon drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" />
         </div>

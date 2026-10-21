@@ -134,9 +134,11 @@ export default function Hero({ ready }) {
             </div>
           </div>
 
-          <div className="hidden md:flex md:relative md:flex-1 md:w-full justify-end items-end -mt-16 h-[720px] pointer-events-none z-10">
-            <div className="absolute bottom-24 right-10 w-96 h-96 rounded-full bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[100px] opacity-40 -z-10 animate-pulse" />
-            <ScrollPortrait src={IMAGES.portrait} ready={ready} />
+          <div className="hidden md:flex md:flex-1 justify-center lg:justify-end pointer-events-none z-10">
+            <div className="relative w-[280px] h-[376px] lg:w-[333px] lg:h-[447px]">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[90px] opacity-40 -z-10 animate-pulse" />
+              <ScrollPortrait src={IMAGES.portrait} ready={ready} />
+            </div>
           </div>
         </div>
       </div>
