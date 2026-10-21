@@ -1,6 +1,3 @@
-const PROFILE_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCFl-b23FA53529NCqE2WpFBU-22JJzm8ExbdC7qn6Dny9CYh17411mo0_AQJbLjsTOM7RZD1tf9ZKUCp_CKkS8tx-JCHSltFZWLpTeTTtBY6nrEZwj0-4Fl5SO3HcAZwP97dcAsHp4ikPnw6zgI2-tmxclQd8mcCHho4REMf7r74Qz12VbUH17HXv6qfPmoVkpgiB6Pp6Fn2CKh69x9ljQl3Sn2RhfD90Wleo8bT8m213evqgBq_E3LnXzNnNjepsB08sfWRrHlPf8";
-
 const TOP_LINKS = [
   { href: "#overview", label: "Dashboard", active: true },
   { href: "#experience", label: "Experience" },
@@ -46,14 +43,11 @@ export default function Header({ onToggleMenu }) {
         </div>
 
         <div className="flex items-center gap-4">
-          <button type="button" className="hidden sm:inline material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">
-            terminal
-          </button>
-          <button type="button" className="hidden sm:inline material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">
-            notifications
-          </button>
-          <div className="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden border border-primary/20">
-            <img alt="Afroj Raj Profile" className="w-full h-full object-cover" src={PROFILE_IMAGE} />
+          <div
+            className="h-8 w-8 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center font-label-caps text-label-caps text-primary"
+            aria-label="Afroj"
+          >
+            A
           </div>
           <a
             href="#contact"

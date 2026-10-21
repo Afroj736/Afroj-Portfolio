@@ -7,7 +7,10 @@ import Skills from "./components/Skills.jsx";
 import Experience from "./components/Experience.jsx";
 import Projects from "./components/Projects.jsx";
 import Metrics from "./components/Metrics.jsx";
-import ApiConsole from "./components/ApiConsole.jsx";
+import ApiTesting from "./components/ApiTesting.jsx";
+import DatabaseTesting from "./components/DatabaseTesting.jsx";
+import PerformanceTesting from "./components/PerformanceTesting.jsx";
+import AIAutomation from "./components/AIAutomation.jsx";
 import Defects from "./components/Defects.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
@@ -27,8 +30,11 @@ export default function App() {
           <Skills />
           <Experience />
           <Projects />
+          <ApiTesting />
+          <DatabaseTesting />
+          <PerformanceTesting />
+          <AIAutomation />
           <Metrics />
-          <ApiConsole />
           <Defects />
           <Contact />
           <Footer />

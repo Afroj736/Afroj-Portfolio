@@ -4,12 +4,15 @@ const S = ({ children }) => <span className="text-secondary">{children}</span>;
 const P = ({ children }) => <span className="text-primary">{children}</span>;
 const O = ({ children }) => <span className="text-outline">{children}</span>;
 
-export default function ApiConsole() {
+export default function ApiConsole({ embedded = false }) {
   const copyEndpoint = () => navigator.clipboard?.writeText(ENDPOINT);
 
   return (
-    <section>
-      <h2 className="font-headline-lg text-headline-lg mb-8">API Testing Command Center</h2>
+    <div>
+      {!embedded && <h2 className="font-headline-lg text-headline-lg mb-8">API Testing Command Center</h2>}
+      {embedded && (
+        <h3 className="font-headline-md text-headline-md mb-4 text-on-surface">API Testing Command Center</h3>
+      )}
       <div className="bg-surface-container-lowest rounded-xl overflow-hidden border border-white/10 shadow-2xl">
         <div className="bg-surface-container-high px-6 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
@@ -27,7 +30,9 @@ export default function ApiConsole() {
             >
               content_copy
             </button>
-            <span className="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-white">download</span>
+            <span className="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-white">
+              download
+            </span>
           </div>
         </div>
 
@@ -80,6 +85,6 @@ export default function ApiConsole() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

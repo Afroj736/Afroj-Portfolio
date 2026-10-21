@@ -1,16 +1,20 @@
+import { RESUME_FILENAME, RESUME_PDF } from "../constants/resume.js";
+
 const NAV_ITEMS = [
   { href: "#overview", icon: "dashboard", label: "Overview", active: true },
-  { href: "#automation", icon: "settings_input_component", label: "Automation" },
-  { href: "#api", icon: "api", label: "API Lab" },
+  { href: "#automation", icon: "settings_input_component", label: "Expertise" },
+  { href: "#api", icon: "api", label: "API Testing" },
   { href: "#database", icon: "database", label: "Database" },
   { href: "#performance", icon: "speed", label: "Performance" },
+  { href: "#ai-automation", icon: "smart_toy", label: "AI Automation" },
   { href: "#defects", icon: "bug_report", label: "Defects" },
   { href: "#contact", icon: "mail", label: "Contact" },
 ];
 
 const SOCIAL_LINKS = [
-  { href: "#", icon: "link", label: "LinkedIn" },
-  { href: "#", icon: "code", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/afroj-2b694822b", icon: "link", label: "LinkedIn", external: true },
+  { href: "https://github.com/Afroj736", icon: "code", label: "GitHub", external: true },
+  { href: RESUME_PDF, icon: "download", label: "Download Resume", download: RESUME_FILENAME },
 ];
 
 export default function Sidebar({ open, onNavigate }) {
@@ -21,8 +25,8 @@ export default function Sidebar({ open, onNavigate }) {
       }`}
     >
       <div className="px-6 mb-10">
-        <h1 className="font-headline-md text-headline-md text-primary font-bold tracking-tighter">AFROJ RAJ</h1>
-        <p className="font-label-caps text-label-caps text-on-surface-variant mt-1 uppercase">QA Command Center</p>
+        <h1 className="font-headline-md text-headline-md text-primary font-bold tracking-tighter">AFROJ</h1>
+        <p className="font-label-caps text-label-caps text-on-surface-variant mt-1 uppercase">Quality Assurance Engineer</p>
       </div>
 
       <nav className="flex-1 space-y-1">
@@ -58,10 +62,12 @@ export default function Sidebar({ open, onNavigate }) {
           Hire Me
         </a>
         <div className="pt-6 border-t border-white/5 space-y-2">
-          {SOCIAL_LINKS.map(({ href, icon, label }) => (
+          {SOCIAL_LINKS.map(({ href, icon, label, external, download }) => (
             <a
               key={label}
               href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              {...(download ? { download } : {})}
               className="flex items-center text-outline hover:text-primary transition-colors font-label-caps text-label-caps"
             >
               <span className="material-symbols-outlined mr-3 text-[18px]">{icon}</span>
