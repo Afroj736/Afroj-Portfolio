@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import Loader from "./components/Loader.jsx";
 import DotField from "./components/DotField.jsx";
+import CustomCursor from "./components/CustomCursor.jsx";
 import Navbar from "./components/Navbar.jsx";
 import CommandPalette from "./components/CommandPalette.jsx";
 import Hero from "./components/Hero.jsx";
@@ -22,6 +23,7 @@ export default function App() {
   return (
     <>
       {!loaded && <Loader onDone={onLoaded} />}
+      <CustomCursor />
       <DotField />
       <Navbar ready={loaded} onOpenPalette={togglePalette} />
       <CommandPalette open={paletteOpen} onClose={closePalette} onToggle={togglePalette} />

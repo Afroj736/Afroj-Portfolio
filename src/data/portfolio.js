@@ -3,7 +3,8 @@ import { RESUME_PDF } from "../constants/resume.js";
 // Placeholder images — swap these for real assets later.
 export const IMAGES = {
   logo: "https://picsum.photos/seed/afroj-logo/120/120",
-  portrait: "https://picsum.photos/seed/afroj-portrait/720/960",
+  // AI-generated face (thispersondoesnotexist.com) — not a real person.
+  portrait: "/images/portrait.jpg",
 };
 
 export const PROFILE = {

@@ -1,5 +1,6 @@
 import { SOCIALS } from "../data/portfolio.js";
 import { SOCIAL_ICONS } from "./icons.jsx";
+import BugCrawler from "./BugCrawler.jsx";
 import { Reveal, ShinyText } from "./ui.jsx";
 
 const HOVER = {
@@ -10,7 +11,8 @@ const HOVER = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-8 relative z-10 overflow-hidden">
+    <footer className="border-t border-white/5 pt-10 pb-8 relative z-10">
+      <BugCrawler />
       <Reveal className="container mx-auto px-4 sm:px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-xs font-mono text-white/20">© {new Date().getFullYear()} Afroj</p>
         <div className="flex items-center gap-5">
@@ -31,7 +33,7 @@ export default function Footer() {
           })}
         </div>
         <p className="text-xs font-mono text-white/20">
-          <ShinyText className="text-white/20">Built with React &amp; ♥</ShinyText>
+          <ShinyText className="text-white/20">hunting defects since 2024</ShinyText>
         </p>
       </Reveal>
     </footer>

@@ -156,6 +156,92 @@ body.is-loading {
   opacity: 1;
 }
 
+/* ---------- Footer bug: patrols the border line ---------- */
+@keyframes bug-crawl {
+  0% {
+    left: 1rem;
+    transform: translateY(-50%) scaleX(1);
+  }
+  49.9% {
+    left: calc(100% - 3.5rem);
+    transform: translateY(-50%) scaleX(1);
+  }
+  50% {
+    left: calc(100% - 3.5rem);
+    transform: translateY(-50%) scaleX(-1);
+  }
+  99.9% {
+    left: 1rem;
+    transform: translateY(-50%) scaleX(-1);
+  }
+  100% {
+    left: 1rem;
+    transform: translateY(-50%) scaleX(1);
+  }
+}
+
+@keyframes bug-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes beetle-leg {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+.bug-crawl {
+  animation: bug-crawl 22s linear infinite;
+}
+.bug-crawl-icon {
+  display: block;
+  animation: bug-bob 0.4s ease-in-out infinite;
+}
+.beetle-leg {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beetle-leg 0.28s ease-in-out infinite;
+}
+.beetle-leg-delay {
+  animation-delay: 0.14s;
+}
+
+/* ---------- Custom cursor (fine pointers only) ---------- */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+@keyframes cursor-pass {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -14px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -34px) scale(1);
+  }
+}
+.cursor-pass {
+  animation: cursor-pass 0.7s ease-out forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

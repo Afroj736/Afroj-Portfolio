@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HERO, IMAGES, PROFILE } from "../data/portfolio.js";
+import ScrollPortrait from "./ScrollPortrait.jsx";
 import { GlowCard, ShinyText, TerminalBar } from "./ui.jsx";
 
 function useRotatingWord(words, interval = 2600) {
@@ -133,19 +134,9 @@ export default function Hero({ ready }) {
             </div>
           </div>
 
-          <div className="hidden md:flex md:relative md:flex-1 md:w-full justify-end items-end -mt-16 h-[760px] pointer-events-none z-10">
+          <div className="hidden md:flex md:relative md:flex-1 md:w-full justify-end items-end -mt-16 h-[720px] pointer-events-none z-10">
             <div className="absolute bottom-24 right-10 w-96 h-96 rounded-full bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[100px] opacity-40 -z-10 animate-pulse" />
-            <div
-              className={`relative w-full max-w-md h-[620px] transition-all duration-1000 delay-300 ${
-                ready ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
-            >
-              <img
-                src={IMAGES.portrait}
-                alt="Portrait placeholder"
-                className="w-full h-full object-cover rounded-[2rem] grayscale-[30%] drop-shadow-[0_15px_60px_rgba(139,92,246,0.35)] [mask-image:linear-gradient(to_bottom,black_70%,transparent)]"
-              />
-            </div>
+            <ScrollPortrait src={IMAGES.portrait} ready={ready} />
           </div>
         </div>
       </div>
