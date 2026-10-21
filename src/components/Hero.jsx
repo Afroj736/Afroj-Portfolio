@@ -17,8 +17,8 @@ const INITIAL_LOG_COUNT = 8;
 const MAX_VISIBLE_LOGS = 20;
 
 const STATS = [
-  { value: "2+", label: "Years Exp", color: "text-primary", border: "" },
-  { value: "1000+", label: "Bugs Found", color: "text-secondary", border: "border-secondary/20" },
+  { value: "1.5+", label: "Years Exp", color: "text-primary", border: "" },
+  { value: "200+", label: "Defects Found", color: "text-secondary", border: "border-secondary/20" },
   { value: "500+", label: "Test Cases", color: "text-error", border: "border-error/20" },
 ];
 
@@ -61,7 +61,7 @@ export default function Hero() {
 
       <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
-          <h2 className="font-display-lg text-display-lg text-primary mb-2">Afroj Raj</h2>
+          <h2 className="font-display-lg text-display-lg text-primary mb-2">Afroj</h2>
           <h3 className="font-headline-lg text-headline-lg text-on-surface-variant mb-8">Quality Assurance Engineer</h3>
           <p className="font-body-lg text-body-lg text-outline max-w-md mb-10">
             Engineering zero-defect digital experiences through automated precision and rigorous performance intelligence.

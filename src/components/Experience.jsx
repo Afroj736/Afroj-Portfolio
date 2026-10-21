@@ -1,26 +1,39 @@
-const JOBS = [
+const TIMELINE = [
   {
-    title: "QA Engineer — Levon Techno",
-    sector: "HEALTHCARE SECTOR",
+    title: "QA Software Tester — Blulabs IT Solutions Pvt. Ltd.",
+    sector: "HEALTHCARE · ERP · BOOKING · MOHALI",
     sectorColor: "text-secondary",
-    period: "2021 — PRESENT",
+    period: "01/2025 — Present",
     current: true,
     points: [
-      "Spearheaded automation framework for Playback Health application.",
-      "Reduced regression cycle time by 60% through parallel execution.",
-      "Implemented continuous testing in Jenkins CI/CD pipelines.",
+      "Tested healthcare, ERP and booking apps end to end: EMR/EHR, HL7 workflows, clinical notes, billing/invoicing and appointment scheduling.",
+      "Automated 60+ regression tests with Selenium, Java and TestNG (POM); integrated with Jenkins for nightly CI/CD runs.",
+      "Built REST Assured onboarding API suite; validated 50+ endpoints with Postman/Swagger and backend SQL checks.",
+      "Identified and reported 70+ pre-release defects; led bug triage and retesting in Agile sprints.",
     ],
   },
   {
-    title: "Jr. QA Specialist — 86 Labs IT",
-    sector: "E-COMMERCE",
+    title: "QA Software Tester — Levon Techno Pvt. Ltd.",
+    sector: "E-COMMERCE · IOT · BANGALORE",
     sectorColor: "text-primary",
-    period: "2019 — 2021",
+    period: "11/2024 — 03/2025",
     current: false,
     points: [
-      "Conducted manual exploratory testing on cross-browser platforms.",
-      "Developed 500+ comprehensive test cases for order management.",
-      "Managed defect lifecycle using Jira and collaborated with developers.",
+      "Performed functional and regression testing on E-commerce and IoT applications (cart, checkout, payment, device-data workflows).",
+      "Ran automated suites through Jenkins pipelines to support continuous integration.",
+      "Reported high-severity UI and backend defects in JIRA and verified fixes before release.",
+      "Carried out cross-browser and API testing with backend SQL verification.",
+    ],
+  },
+  {
+    title: "Software Testing Certification — SSquare IT Solution, Pune",
+    sector: "CERTIFICATION",
+    sectorColor: "text-tertiary",
+    period: "07/2024 — 11/2024",
+    current: false,
+    points: [
+      "Manual Testing: SDLC, STLC, test plans/scenarios/cases, BVA & equivalence partitioning, defect life cycle, Agile/Scrum, JIRA.",
+      "Automation & Tools: Java (OOP), Selenium WebDriver, TestNG, Maven, POM, Jenkins, Git, Postman, REST Assured, SQL.",
     ],
   },
 ];
@@ -30,7 +43,7 @@ export default function Experience() {
     <section id="experience">
       <h2 className="font-headline-lg text-headline-lg mb-8">Work Experience Timeline</h2>
       <div className="space-y-4">
-        {JOBS.map(({ title, sector, sectorColor, period, current, points }) => (
+        {TIMELINE.map(({ title, sector, sectorColor, period, current, points }) => (
           <div key={title} className="relative group">
             <div className="absolute left-4 top-0 bottom-0 w-px bg-primary/20" />
             <div
@@ -53,7 +66,7 @@ export default function Experience() {
               <ul className="space-y-3 font-body-md text-on-surface-variant">
                 {points.map((point) => (
                   <li key={point} className="flex gap-3">
-                    <span className="text-primary">&gt;</span> {point}
+                    <span className="text-primary shrink-0">&gt;</span> {point}
                   </li>
                 ))}
               </ul>
