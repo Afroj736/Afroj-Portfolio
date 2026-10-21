@@ -1,102 +1,150 @@
 import { useEffect, useState } from "react";
+import { HERO, IMAGES, PROFILE } from "../data/portfolio.js";
+import { GlowCard, ShinyText, TerminalBar } from "./ui.jsx";
 
-const LOGS = [
-  "[INFO] Initializing Test Suite v4.2.0...",
-  "[INFO] Loading Drivers for Chrome, Firefox, Edge...",
-  "[RUN] Executing SmokeTests.java...",
-  "[PASS] loginValidation(valid_creds) -> 244ms",
-  "[PASS] checkoutFlow(guest_user) -> 1.2s",
-  "[WARN] apiLatencyCheck(auth_server) -> 890ms (High)",
-  "[RUN] Regression_Batch_01 started...",
-  "[PASS] dataIntegrityCheck(production) -> 45ms",
-  "[INFO] Parallel thread pool initialized...",
-  "[RUN] mobileResponsivenessCheck(iPhone15)...",
-  "[PASS] mobileResponsivenessCheck(iPhone15) -> 3.4s",
-];
-const INITIAL_LOG_COUNT = 8;
-const MAX_VISIBLE_LOGS = 20;
-
-const STATS = [
-  { value: "1.5+", label: "Years Exp", color: "text-primary", border: "" },
-  { value: "200+", label: "Defects Found", color: "text-secondary", border: "border-secondary/20" },
-  { value: "500+", label: "Test Cases", color: "text-error", border: "border-error/20" },
-];
-
-function useTestSimulation() {
-  const [lines, setLines] = useState(() =>
-    LOGS.slice(0, INITIAL_LOG_COUNT).map((text, id) => ({ id, text }))
-  );
-
+function useRotatingWord(words, interval = 2600) {
+  const [index, setIndex] = useState(0);
   useEffect(() => {
-    let next = 0;
-    const timer = setInterval(() => {
-      setLines((prev) => {
-        const id = prev[prev.length - 1].id + 1;
-        const updated = [...prev, { id, text: LOGS[next % LOGS.length] }];
-        return updated.slice(-MAX_VISIBLE_LOGS);
-      });
-      next++;
-    }, 2000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return lines;
+    const id = setInterval(() => setIndex((i) => (i + 1) % words.length), interval);
+    return () => clearInterval(id);
+  }, [words, interval]);
+  return [words[index], index];
 }
 
-export default function Hero() {
-  const lines = useTestSimulation();
+// Types each command, then prints its output, then moves to the next; loops forever.
+function useTypedSession(script, start) {
+  const [done, setDone] = useState([]);
+  const [typing, setTyping] = useState("");
+
+  useEffect(() => {
+    if (!start) return;
+    let cancelled = false;
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    (async () => {
+      while (!cancelled) {
+        setDone([]);
+        for (const { cmd, out } of script) {
+          for (let i = 1; i <= cmd.length && !cancelled; i++) {
+            setTyping(cmd.slice(0, i));
+            await sleep(55);
+          }
+          await sleep(300);
+          if (cancelled) return;
+          setTyping("");
+          setDone((prev) => [...prev, { cmd, out }]);
+          await sleep(700);
+        }
+        await sleep(3500);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [script, start]);
+
+  return { done, typing };
+}
+
+export default function Hero({ ready }) {
+  const [word, wordIndex] = useRotatingWord(HERO.rotating);
+  const { done, typing } = useTypedSession(HERO.terminal, ready);
+  const enter = (delay) => ({
+    className: `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      ready ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+    }`,
+    style: { transitionDelay: `${delay}ms` },
+  });
 
   return (
-    <section
-      id="overview"
-      className="relative overflow-hidden rounded-xl bg-surface-container-low border border-white/5 p-8 lg:p-12 min-h-[500px] flex items-center"
-    >
-      <div className="absolute inset-0 z-0 overflow-hidden opacity-20 pointer-events-none">
-        <div className="font-code-sm text-code-sm text-secondary p-8 space-y-1 opacity-40">
-          {lines.map((line) => (
-            <div key={line.id}>{line.text}</div>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative z-10 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 className="font-display-lg text-display-lg text-primary mb-2">Afroj</h2>
-          <h3 className="font-headline-lg text-headline-lg text-on-surface-variant mb-8">Quality Assurance Engineer</h3>
-          <p className="font-body-lg text-body-lg text-outline max-w-md mb-10">
-            Engineering zero-defect digital experiences through automated precision and rigorous performance intelligence.
-          </p>
-          <div className="grid grid-cols-3 gap-4 lg:gap-6">
-            {STATS.map(({ value, label, color, border }) => (
-              <div key={label} className={`glass-card p-4 rounded-lg text-center ${border}`}>
-                <div className={`font-display-lg text-headline-lg mb-1 ${color}`}>{value}</div>
-                <div className="font-label-caps text-label-caps text-outline">{label}</div>
+    <section id="hero" className="min-h-[100dvh] pt-20 sm:pt-24 md:pt-32 pb-12 flex flex-col justify-center relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 md:px-12 relative z-10 h-full flex flex-col justify-center">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center justify-between">
+          <div className="flex-1 w-full max-w-2xl relative z-10">
+            <div {...enter(100)}>
+              <div className="mb-6 sm:mb-8">
+                <p className="text-xs sm:text-sm md:text-base text-primary font-mono mb-2 tracking-widest uppercase">
+                  <ShinyText speed={3}>{HERO.eyebrow}</ShinyText>
+                </p>
+                <p className="font-display font-black leading-none tracking-tight text-6xl sm:text-8xl md:text-9xl mb-4 -ml-1 text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.35)] hover:[-webkit-text-stroke:1px_#8b5cf6] transition-all">
+                  {PROFILE.name}
+                </p>
+                <h1 className="text-[20px] xs:text-[22px] sm:text-5xl md:text-7xl font-black tracking-tighter text-muted/70 whitespace-nowrap">
+                  {HERO.lead}
+                </h1>
+                <div className="h-[26px] xs:h-[28px] sm:h-[54px] md:h-[78px] overflow-hidden relative mt-1 sm:mt-2">
+                  <span
+                    key={wordIndex}
+                    className="word-in block text-[20px] xs:text-[22px] sm:text-5xl md:text-7xl font-black tracking-tighter bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-none whitespace-nowrap pb-2"
+                  >
+                    {word}
+                  </span>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="hidden lg:block">
-          <div className="relative w-full aspect-video glass-card rounded-xl overflow-hidden border-primary/20 flex flex-col">
-            <div className="bg-surface-container-high px-4 py-2 flex items-center gap-2 border-b border-white/5">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-error/50" />
-                <div className="w-3 h-3 rounded-full bg-secondary/50" />
-                <div className="w-3 h-3 rounded-full bg-primary/50" />
-              </div>
-              <span className="font-code-sm text-code-sm text-outline mx-auto uppercase tracking-widest">
-                Automation_Console.log
-              </span>
             </div>
-            <div className="p-6 font-code-md text-code-md space-y-2 overflow-hidden flex-1">
-              <p className="text-secondary terminal-glow">$ mvn test -Dsuite=Regression</p>
-              <p className="text-on-surface-variant">Scanning for projects...</p>
-              <p className="text-on-surface-variant">-------------------------------------------------------</p>
-              <p className="text-on-surface-variant"> T E S T S</p>
-              <p className="text-on-surface-variant">-------------------------------------------------------</p>
-              <p className="text-on-surface-variant">Running com.qa.automation.CheckoutTest</p>
-              <p className="text-secondary">Tests run: 142, Failures: 0, Errors: 0, Skipped: 0</p>
-              <p className="text-primary animate-pulse-glow">BUILD SUCCESS [02:14 min]</p>
+
+            <div {...enter(250)}>
+              <p className="text-xs sm:text-sm md:text-base text-white/80 max-w-md leading-relaxed mb-6 sm:mb-8 font-medium">
+                {HERO.summary}
+              </p>
+              <div className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
+                <a
+                  href="#projects"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-primary text-white text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 text-center shrink-0"
+                >
+                  View Work
+                </a>
+                <a
+                  href={PROFILE.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white/5 border border-white/10 text-xs sm:text-sm font-bold uppercase tracking-wider hover:bg-white/10 transition-colors backdrop-blur-sm text-center shrink-0"
+                >
+                  <ShinyText className="text-white">View Resume</ShinyText>
+                </a>
+              </div>
+            </div>
+
+            <div className="w-full max-w-xl" {...enter(400)}>
+              <GlowCard radius={12} bg="#050505" className="w-full">
+                <TerminalBar title={PROFILE.handle} />
+                <div className="p-3.5 sm:p-6 font-mono text-xs sm:text-sm space-y-2.5 sm:space-y-4 min-h-[170px] sm:min-h-[280px]">
+                  {done.map(({ cmd, out }) => (
+                    <div key={cmd}>
+                      <div>
+                        <span className="text-primary mr-2">$</span>
+                        <span className="text-white font-medium">{cmd}</span>
+                      </div>
+                      {out.map((line) => (
+                        <p key={line} className={`pl-4 ${line.startsWith("BUILD") ? "text-green-400" : "text-muted"}`}>
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  ))}
+                  <div>
+                    <span className="text-primary mr-2">$</span>
+                    <span className="text-white font-medium">{typing}</span>
+                    <span className="w-2 h-4 bg-primary/80 animate-pulse inline-block align-middle ml-1" />
+                  </div>
+                </div>
+              </GlowCard>
+            </div>
+          </div>
+
+          <div className="hidden md:flex md:relative md:flex-1 md:w-full justify-end items-end -mt-16 h-[760px] pointer-events-none z-10">
+            <div className="absolute bottom-24 right-10 w-96 h-96 rounded-full bg-gradient-to-tr from-primary/30 to-secondary/30 blur-[100px] opacity-40 -z-10 animate-pulse" />
+            <div
+              className={`relative w-full max-w-md h-[620px] transition-all duration-1000 delay-300 ${
+                ready ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+            >
+              <img
+                src={IMAGES.portrait}
+                alt="Portrait placeholder"
+                className="w-full h-full object-cover rounded-[2rem] grayscale-[30%] drop-shadow-[0_15px_60px_rgba(139,92,246,0.35)] [mask-image:linear-gradient(to_bottom,black_70%,transparent)]"
+              />
             </div>
           </div>
         </div>
