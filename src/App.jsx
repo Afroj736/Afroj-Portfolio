@@ -13,6 +13,7 @@ import PerformanceTesting from "./components/PerformanceTesting.jsx";
 import AIAutomation from "./components/AIAutomation.jsx";
 import Defects from "./components/Defects.jsx";
 import Contact from "./components/Contact.jsx";
+import Footer from "./components/Footer.jsx";
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,6 +37,7 @@ export default function App() {
           <Metrics />
           <Defects />
           <Contact />
+          <Footer />
         </div>
       </main>
 
