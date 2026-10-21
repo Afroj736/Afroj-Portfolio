@@ -11,6 +11,7 @@ import Projects from "./components/Projects.jsx";
 import Journey from "./components/Journey.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
+import SectionDivider from "./components/SectionDivider.jsx";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -30,10 +31,15 @@ export default function App() {
 
       <main className="flex-1 relative z-10 overflow-x-hidden w-full max-w-full">
         <Hero ready={loaded} />
+        <SectionDivider target="about" />
         <About />
+        <SectionDivider target="skills" />
         <Skills />
+        <SectionDivider target="projects" />
         <Projects />
+        <SectionDivider target="journey" />
         <Journey />
+        <SectionDivider target="contact" />
         <Contact />
       </main>
       <Footer />

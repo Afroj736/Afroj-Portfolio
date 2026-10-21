@@ -23,8 +23,11 @@ function cutout(img) {
   const seen = new Uint8Array(W * H);
   const stack = [];
 
-  for (let x = 0; x < W; x++) stack.push(x, (H - 1) * W + x);
-  for (let y = 0; y < H; y++) stack.push(y * W, y * W + W - 1);
+  // Already a cutout (transparent corner)? Skip the flood fill.
+  if (px[3] > 10) {
+    for (let x = 0; x < W; x++) stack.push(x, (H - 1) * W + x);
+    for (let y = 0; y < H; y++) stack.push(y * W, y * W + W - 1);
+  }
 
   while (stack.length) {
     const p = stack.pop();

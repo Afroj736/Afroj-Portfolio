@@ -1,5 +1,7 @@
+import { useState } from "react";
+import useInView from "../hooks/useInView.js";
+
 // The beetle from the previous design, recoloured to the violet theme.
-// It patrols the footer's top border line, turning around at each end.
 function BeetleIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 72 44" width="40" height="24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -46,13 +48,40 @@ function BeetleIcon({ className }) {
   );
 }
 
-export default function BugCrawler() {
+// Divider between sections: when it scrolls into view the beetle "scans" the
+// next section, lighting the line behind it, then reports a passing result.
+export default function SectionDivider({ target }) {
+  const [ref, inView] = useInView({ threshold: 0.9 });
+  const [done, setDone] = useState(false);
+
   return (
-    <div className="absolute top-0 inset-x-0 h-0 pointer-events-none" aria-hidden="true">
-      <div className="bug-crawl absolute top-0">
-        {/* Glowing trail left on the border; flips with the bug */}
-        <div className="absolute top-1/2 right-[85%] w-32 h-px bg-gradient-to-r from-transparent to-primary/80" />
-        <BeetleIcon className="bug-crawl-icon drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" />
+    <div
+      ref={ref}
+      className={`relative z-10 container mx-auto px-4 sm:px-6 md:px-12 max-w-6xl py-6 ${inView ? "is-scanning" : ""} ${
+        done ? "is-scanned" : ""
+      }`}
+      aria-hidden="true"
+    >
+      <div className="flex items-center justify-between mb-3 font-mono text-[10px] sm:text-xs tracking-wider">
+        <span className="text-muted/60">
+          <span className="text-primary">$</span> scan --section={target}
+        </span>
+        <span
+          className={`flex items-center gap-2 transition-all duration-500 ${
+            done ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+          }`}
+        >
+          <span className="text-muted/60">0 defects</span>
+          <span className="px-2 py-0.5 rounded border border-green-500/30 bg-green-500/10 text-green-400 font-bold">✓ PASS</span>
+        </span>
+      </div>
+
+      <div className="relative h-px bg-white/[0.06]">
+        <div className="scan-line absolute inset-0 origin-left bg-gradient-to-r from-primary/10 via-primary to-secondary" />
+        <div className="scan-bug absolute top-0" onAnimationEnd={() => setDone(true)}>
+          <div className="absolute top-1/2 right-[85%] w-24 h-px bg-gradient-to-r from-transparent to-primary" />
+          <BeetleIcon className="bug-crawl-icon drop-shadow-[0_0_8px_rgba(139,92,246,0.6)]" />
+        </div>
       </div>
     </div>
   );
