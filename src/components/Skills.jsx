@@ -1,88 +1,44 @@
-const SKILLS = [
-  { name: "Manual", level: "95%", materialIcon: "touch_app" },
-  {
-    name: "SQL",
-    level: "80%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuCfLXFCCRIxjoEuNnVkNvSlz7fMOMl632zQVyiwU7J1MG3hqcqjeiCiGjokLJ69u840qdLpsEl1BDDIlJAvl9eAnikc8A8zSYcJHf5yv2pYbCw5eR6_-8fI1ahL2Q2YTByIRli371l3lUmR4JSHKP0HzU0db86WHashqsXDpApMbWp5zTKBWlkw7T92gZQCNsKoRly_TP3mpatxKCDz8DRsIJQrGG7D5Qo3j6y0dZfZ0ZE_XH-1UGiy8X-fxzRw1eCxmI6GLPLYhxbC",
-  },
-  {
-    name: "Postman",
-    level: "90%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuDo_emYF2zIg0RCxqbCJTExJmmh1PwCkM0u4HR761c_5Fp1gCOxmO_-jrRdzYj1j2jIJqsrP56WBoMMyKcNSNyHkmimmCF8fACkozaGhLiOZ_Y5NhW4cAPhibe13j7ni_bHFJXYdRfGr6YM54CSriRUo1ZWpqSxyB_kpvtd30KzOZsdzHQ7_bXmkhf0dYvWPcvLecLj2odLE9oc6sn-Hu_-H5Tq36YH2rbSnXCiORrj8qZ2qf6Ih-Di6rX-Mmp2myQmyF8Y-r_2LSSs",
-  },
-  {
-    name: "Java",
-    level: "92%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuD0aDbOTCUDjVH3UNikalcRpzCdPQpIL2BiPKL9_wT7vLlBjct4q00aZwFSRmYm9NY6yOvhDKfATxMkYGPcALa4p-kyoDczf0Qv1KxE9UoEiihOzPOOyG4PiRtnv8-ArC9es-Br0S1PU7BlnpJB5Sme1p-PCqGrVvDIlhD9rw-f22yB8Aje4bDYk9SmpGbdTVmL-uJf0Io7lkB-Ft4mtgAAYtFvrJdhrDnTd3_JHbEzJUkYXqOz3Z5yTDODGfj4H9zbrwQyGq1MJRit",
-  },
-  {
-    name: "Selenium",
-    level: "95%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuDPMxaMUU9IR-kAee4NAgkslQmHH7W1GcGcRsEpCNP-S7yRW7TuGnKM-XUGl3pULywdbzC55MMZ_75MxVpViMkUYXmcnXbbUbm4QCT1Iy_3PE2ucCi1wWTaPy1PrJs-TnRppz3aH0b773WpPwazgEGFTMEH_PglEPYtmvOdjtXWCny_wG1WGj9QGSUH0H58wPtF0jg5b2H2F3ZAMgf-QcTnePrbVXm7kiOKpLBQRlp-BHCU5EPgpjuhSaXhOMC7aMuD-erFF9b0wLJk",
-  },
-  {
-    name: "Jira",
-    level: "100%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuDGw3oUgdo3vs8lXN9aAKk44_CLBczLcGFdStpUA0LhfyAI_ZB50AhMx5b0gFDyoWl-d39LNlLg-DKp6nvixvkfXvaxQIyxfJQxjjZg-MlrrJb9Zz2UJZNolBkEjKLN16mlIeISDT0bJtJhz6xPwUOqrrGr_olh66AGHLc7NwNMroUpnu5ULuBJEiigISNQwmrBiRonwmysD5091qDztmCwngrQhHIUtxmv6DOQQDlEqAzh-bPr9wDw3MfZ8jRrgFVPyCpU2fTClw7U",
-  },
-  {
-    name: "Jenkins",
-    level: "85%",
-    icon: "https://lh3.googleusercontent.com/aida-public/AB6AXuARLmOv1agpRhAYQPmsMBTdNWIDz3_UIGfCr5zj_ThaQv_K5OSNCeRK3I-Mm9T9umnW_AZYedAFsrRfK4y3SNY8A-k-eY0fVVb16zyGvz6hsEPlBqzK2w12s7KYyEFwrEbESlYlYP-KB_QD_YfOm197d7PRePSS_uCfg87h8Xtr4unYV13Tu3cctdOQFdm2szsKHmEPakS46vEYyPiVZNCwDN539OEv_jQrRnCnAwWURdN2rGOqpU5z5g9VRkRYXNIgzHvUyubdbTsx",
-  },
-  { name: "GitHub", level: "88%", materialIcon: "code" },
-];
+import { SKILL_ROWS } from "../data/portfolio.js";
+import { SectionHeading } from "./ui.jsx";
 
-const RING_RADIUS = 56;
-const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
-const READINESS = 92;
+const SPEEDS = ["45s", "55s", "50s"];
+
+function MarqueeRow({ items, reverse, speed }) {
+  // Duplicated so translateX(-50%) loops seamlessly.
+  const loop = [...items, ...items, ...items, ...items];
+  return (
+    <div className="relative flex overflow-x-hidden group">
+      <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-20 md:w-32 bg-gradient-to-r from-[#020202] to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-20 md:w-32 bg-gradient-to-l from-[#020202] to-transparent z-10 pointer-events-none" />
+      <div
+        className={`marquee-track flex whitespace-nowrap items-center gap-2.5 sm:gap-3 md:gap-4 py-1 pr-2.5 sm:pr-3 md:pr-4 ${reverse ? "reverse" : ""}`}
+        style={{ "--speed": speed }}
+      >
+        {loop.map((skill, i) => (
+          <div
+            key={`${skill}-${i}`}
+            aria-hidden={i >= items.length}
+            className="px-4 sm:px-5 md:px-8 py-2 sm:py-3 md:py-4 bg-[#111] border border-white/5 rounded-full text-foreground/70 font-mono text-xs sm:text-sm md:text-base hover:border-primary/50 hover:text-primary transition-colors hover:shadow-[0_0_15px_rgba(139,92,246,0.2)] shrink-0"
+          >
+            {skill}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Skills() {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <div className="lg:col-span-2">
-        <h2 className="font-headline-lg text-headline-lg mb-8">Interactive Skills Dashboard</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-6">
-          {SKILLS.map(({ name, level, icon, materialIcon }) => (
-            <div key={name} className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 glass-card rounded-full flex items-center justify-center border-primary/20 hover:bg-primary/5 transition-all cursor-help relative group">
-                {icon ? (
-                  <img alt={`${name} Icon`} className="w-8 h-8 filter brightness-200" src={icon} />
-                ) : (
-                  <span className="material-symbols-outlined text-primary text-3xl">{materialIcon}</span>
-                )}
-                <div className="absolute -top-10 bg-primary-container text-on-primary-fixed-variant text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                  {level}
-                </div>
-              </div>
-              <span className="font-label-caps text-label-caps text-outline">{name}</span>
-            </div>
-          ))}
-        </div>
+    <section id="skills" className="py-20 md:py-32 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-primary/[0.03] rounded-full blur-[160px] pointer-events-none" />
+      <div className="container mx-auto px-4 sm:px-6 md:px-12 max-w-6xl relative z-10 mb-8 sm:mb-12">
+        <SectionHeading index="02" title="Skills" subtitle="technical proficiency" />
       </div>
-
-      <div className="glass-card p-8 rounded-xl flex flex-col items-center justify-center gap-6">
-        <h3 className="font-label-caps text-label-caps text-primary">RELEASE READINESS</h3>
-        <div className="relative flex items-center justify-center">
-          <svg className="w-32 h-32 transform -rotate-90">
-            <circle className="text-white/5" cx="64" cy="64" fill="transparent" r={RING_RADIUS} stroke="currentColor" strokeWidth="8" />
-            <circle
-              className="text-primary"
-              cx="64"
-              cy="64"
-              fill="transparent"
-              r={RING_RADIUS}
-              stroke="currentColor"
-              strokeWidth="8"
-              strokeDasharray={RING_CIRCUMFERENCE}
-              strokeDashoffset={RING_CIRCUMFERENCE * (1 - READINESS / 100)}
-            />
-          </svg>
-          <span className="absolute font-code-md text-code-md text-primary">{READINESS}%</span>
-        </div>
-        <p className="font-body-md text-sm text-center text-outline">
-          Average automation coverage across active client repositories.
-        </p>
+      <div className="flex flex-col gap-4 sm:gap-6 relative z-10">
+        {SKILL_ROWS.map((row, i) => (
+          <MarqueeRow key={i} items={row} reverse={i % 2 === 1} speed={SPEEDS[i % SPEEDS.length]} />
+        ))}
       </div>
     </section>
   );
